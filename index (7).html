@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Code Explorer: the Moving Red Ball</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gt"><div class="gbox">
+  <h2 id="gt" style="margin-top:0">Welcome to Code Explorer</h2>
+  <p>Want richer explanations written by an AI? Add your own API key. It stays in this browser and is sent only to the AI company you pick. You can also skip this and use the built-in explanations.</p>
+  <label>AI company <select id="gprov"><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI</option><option value="gemini">Google (Gemini)</option></select></label>
+  <label>API key <input id="gkey" type="password" autocomplete="off" placeholder="paste your key here"></label>
+  <label>Model <input id="gmodel"></label>
+  <label class="chk"><input id="grem" type="checkbox"> Remember it on this device</label>
+  <div class="gbtns"><button id="gok">Save and start</button><button id="gskip" class="ghost">Skip for now</button></div>
+  <p class="mute small" id="gmsg">Never put your key in a file you share or upload. Use a key with a spending limit.</p>
+</div></div>
+<header>
+  <button id="gopen" class="ghost" style="float:right;padding:4px 10px">AI settings</button><h1>Code Explorer: the Moving Red Ball</h1>
+  <p>The code starts hidden. Press Run next line to add one line at a time and watch the picture grow! Tap any line to get sliders and drop-down boxes that change it. Click a word with a dotted underline, like millis() or time, to watch its live value in the console.</p>
+</header>
+<main>
+  <section class="card" aria-label="Code">
+    <div class="bar">
+      <b>Code</b>
+      <button id="tLearn" class="on">Learn</button>
+      <button id="tEdit" class="ghost">Edit</button>
+      <button id="next">Run next line</button>
+    </div>
+    <div id="learn">
+      <div id="code"></div><div id="more" class="more"></div><div id="vars" class="vars" hidden></div>
+      <div id="explain" aria-live="polite"></div>
+      <div class="bar">
+        <button id="top" class="ghost">Start over</button>
+        <button id="prev" class="ghost">Back a line</button>
+        <button id="auto" class="ghost">Auto-play</button>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="edit" hidden>
+      <p class="mute" style="margin:8px 12px">Type or paste any p5.js code here, then press <b>Run my code</b>. The Learn tab will explain it line by line, with sliders, hover tips and watching.</p><textarea id="ta" spellcheck="false" aria-label="Edit the code"></textarea>
+      <div class="bar">
+        <button id="run">Run my code</button>
+        <button id="reset" class="ghost">Reset text</button><button id="demo" class="ghost">Ball example</button>
+      </div>
+    </div>
+  </section>
+  <section class="card" aria-label="Preview and console">
+    <div class="bar"><b>Preview</b><button id="sS" class="ghost sm">Small</button><button id="sM" class="ghost sm">Medium</button><button id="sL" class="ghost sm">Big</button><button id="sW" class="ghost sm">Wide</button><button id="rerun" class="ghost sm">Restart</button></div>
+    <div id="pvwrap"><iframe id="pv" sandbox="allow-scripts" title="Preview of the sketch"></iframe><div class="grip">Drag the bottom-right corner to make the preview taller or shorter</div></div>
+    <div class="bar"><b>Console</b><button id="clr" class="ghost">Clear</button></div>
+    <div id="watch" class="watch" hidden></div>
+    <div id="con" role="log"></div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
