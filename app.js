@@ -86,11 +86,11 @@ function group(i,box,title){
   box.appendChild(rb);
 }
 // ===== Optional AI explanations (your own key, called straight from this browser) =====
-var AI={prov:"anthropic",key:"",model:""},aiCache={},DEFMODEL={anthropic:"claude-sonnet-5-5",openai:"gpt-4o-mini",gemini:"gemini-2.5-flash"};
+var AI={prov:"anthropic",key:"",model:""},aiCache={},DEFMODEL={anthropic:"claude-sonnet-5-5",openai:"gpt-4o-mini",gemini:"gemini-3.8-flash"};
 var gp=document.getElementById("gprov"),gk=document.getElementById("gkey"),gm=document.getElementById("gmodel");
 function gateShow(v){document.getElementById("gate").hidden=!v}
 function aiSave(rem){try{var s=JSON.stringify(AI);sessionStorage.setItem("ce_ai",s);if(rem)localStorage.setItem("ce_ai",s);else localStorage.removeItem("ce_ai")}catch(e){}}
-try{var sv=sessionStorage.getItem("ce_ai")||localStorage.getItem("ce_ai");if(sv){var so=JSON.parse(sv);AI.prov=so.prov;AI.key=so.key;AI.model=so.model}}catch(e){}
+try{var sv=sessionStorage.getItem("ce_ai")||localStorage.getItem("ce_ai");if(sv){var so=JSON.parse(sv);AI.prov=so.prov;AI.key=so.key;AI.model=so.model;if(AI.prov==="gemini"&&AI.model==="gemini-2.5-flash")AI.model="gemini-3.8-flash"}}catch(e){}
 gm.value=DEFMODEL.anthropic;
 if(AI.key){gp.value=AI.prov;gm.value=AI.model;gateShow(false)}
 gp.onchange=function(){gm.value=DEFMODEL[gp.value]};
@@ -114,7 +114,7 @@ function aiAsk(i,btn,out,ck){
   fetch(url,{method:"POST",headers:h,body:JSON.stringify(b)})
   .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error((j.error&&j.error.message)||("Error "+r.status));return j})})
   .then(function(j){var t=an?(j.content||[]).map(function(c){return c.text||""}).join(""):gem?((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(function(c){return c.text||""}).join(""):j.choices[0].message.content;if(!t)throw new Error("The AI sent back no text.");aiCache[ck]=t;aiShow(out,t)})
-  .catch(function(e){out.textContent="Could not reach the AI: "+e.message+" (If this page is open inside Claude, the browser blocks the connection. It works from GitHub Pages or when you open the files yourself.)"})
+  .catch(function(e){out.textContent="Could not reach the AI: "+e.message+(e instanceof TypeError?" (If this page is open inside Claude, the browser blocks the connection. It works from GitHub Pages or when you open the files yourself.)":" (You can change the model name under AI settings.)")})
   .then(function(){btn.disabled=false});
 }
 function aiUi(i){
